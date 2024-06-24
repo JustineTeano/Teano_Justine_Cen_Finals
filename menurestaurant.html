@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<title>Justine Kitchen Menu</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+	background-color: aqua;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+  }
+  .menu-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .menu-title {
+    margin-bottom: 20px;
+    text-align: center;  
+    -webkit-text-stroke: 1px black;
+    color: red;
+    font-family: 'Goudy Stout', sans-serif; 
+	font-size: 60px;
+  }
+  .menu-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  .menu-button {
+    padding: 10px 20px;
+    background-color: maroon;
+    color: #fff;
+    border: 2px solid-black #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+	font-family: 'Algerian', sans-serif;
+	font-size: 20px;
+  }
+  .menu-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .menu-image-container {
+    text-align: center;
+    margin: 30px;
+    position: relative;
+	font-family: 'Cooper Black', sans-serif;
+	font-size: 22px;
+	color: white;
+	-webkit-text-stroke: px black;
+  }
+  .menu-image {
+    width: 250px;
+    height: auto;
+    border-radius: 30px;
+    outline: 3px solid #ccc;
+    outline-color: brown;
+  }
+  .Purchase {
+    padding: 12px 24px;
+    background-color: #8b4513;
+    color: #fff;
+    border: 2px solid-black #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+  .menu-image-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .flashed-image {
+    display: none;
+	    position: fixed;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-50%, -50%);
+    	z-index: 9999;
+  }
+  #total-bar {
+    width: 100%;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+  }
+  .menu-button.view-cart {
+    padding: 10px 10px;
+    font-size: 12px;
+    padding-top: 10px;
+	background-color: yellow;
+	color: black;
+}
+</style>
+</head>
+<body>
+
+<h1 class="menu-title">JC's Kitchen Menu</h1>
+  
+<div id="cart-container"></div>
+  
+<button class="menu-button view-cart" onclick="toggleCart()">View Cart</button>
+
+<div class="menu-container">
+  <div class="menu-buttons">
+    <button class="menu-button" onclick="showCategory('main-dish')">Main Dish</button>
+    <button class="menu-button" onclick="showCategory('vegetables')">Vegetables</button>
+    <button class="menu-button" onclick="showCategory('desserts')">Desserts</button>
+    <button class="menu-button" onclick="showCategory('drinks')">Drinks</button>
+    <button class="menu-button" onclick="showCategory('add-ons')">Add-ons</button>
+  </div>
+
+  <div id="main-dish" class="menu-images">
+    <div class="menu-image-container">
+      <img class="menu-image" src="BeefEnchiladas.jpg" alt="Beef Enchiladas">
+<p class="Beef-Enchiladas">Beef Enchiladas $90.00</p>
+    <button class="Purchase" onclick="buyItem('Beef Enchiladas',90.00)">Buy</button>
+    </div>
+    <div class="menu-image-container">
+      <img class="menu-image" src="FritoPie.webp" alt="Frito Pie">
+<p class="Frito-Pie">Frito Pie $75.00</p>
+    <button class="Purchase" onclick="buyItem('Frito Pie',75.00)">Buy</button>
+    </div>
+    <div class="menu-image-container">
+      <img class="menu-image" src="TurkeyTetrazzini.jpg" alt="Turkey Tetrazzini">
+<p class="Turkey-Tetrazzini">Turkey Tetrazzini $120.00</p>
+    <button class="Purchase" onclick="buyItem('Turkey Tetrazzini',120.00)">Buy</button>
+    </div>
+    <div class="menu-image-container">
+      <img class="menu-image" src="Pan-SearedSalmon.jpeg" alt="Pan-Seared Salmon">
+<p class="Pan-Seared-Salmon">Pan-Seared Salmon $95.00</p>
+    <button class="Purchase" onclick="buyItem('Pan-Seared Salmon',95.00)">Buy</button>
+    </div>
+    <div class="menu-image-container">
+      <img class="menu-image" src="HabaneroBBQShrimp.webp" alt="Habanero BBQ Shrimp">
+<p class="Habanero-BBQ-Shrimp">Habanero BBQ Shrimp $86.70</p>
+    <button class="Purchase" onclick="buyItem('Habanero BBQ Shrimp',86.00)">Buy</button>
+    </div>
+  </div>
+
+  <div id="vegetables" class="menu-images" style="display: none;">
+    <div class="menu-image-container">
+      <img class="menu-image" src="ButteredVegetables.jpg" alt="Buttered Vegetables">
+<p class="Buttered-Vegetables">Buttered Vegetables $15.00</p>
+    <button class="Purchase" onclick="buyItem('Buttered Vegetables',15.00)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="AdobongSitaw.jpg" alt="Adobong Sitaw">
+<p class="Adobong-Sitaw">Adobong Sitaw $5.00</p>
+    <button class="Purchase" onclick="buyItem('Adobong Sitaw',5.00)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="kare-kare.jpeg" alt="Kare-Kare">
+<p class="Kare-Kare">Kare-Kare $5.40</p>
+    <button class="Purchase" onclick="buyItem('Kare-Kare',5.40)">Buy</button>
+	</div>
+  </div>
+  
+  <div id="desserts" class="menu-images" style="display: none;">
+    <div class="menu-image-container">
+      <img class="menu-image" src="OreoCheeseCake.webp" alt="Oreo Cheese Cake">
+<p class="Oreo-Cheese-Cake">Oreo Cheese Cake $7.00</p>
+	<button class="Purchase" onclick="buyItem('Oreo Chese Cake',7.00)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="IceCreamHaloHalo.jpg" alt="Ice Cream Halo-Halo">
+<p class="Ice-Cream-Halo-Halo">Ice Cream Halo-Halo $4.00</p>
+	<button class="Purchase" onclick="buyItem('Ice Cream Halo-Halo',4.00)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="TripleChocolateCake.jpg" alt="Triple Chocolate Cake">
+<p class="Triple-Chocolate-Cake">Triple Chocolate Cake with Peppermint Ganache $5.40</p>
+	<button class="Purchase" onclick="buyItem('Triple Chocolate Cake',5.40)">Buy</button>
+	</div>
+  </div>
+
+  <div id="drinks" class="menu-images" style="display: none;">
+    <div class="menu-image-container">
+      <img class="menu-image" src="CookiesAndCream.jpg" alt="Cookies And Cream">
+<p class="Cookies-And-Cream">Cookies And Cream Frappe $6.50</p>
+    <button class="Purchase" onclick="buyItem('Cookies And Cream',6.50)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="BubbleTea.jpg" alt="Bubble Tea">
+<p class="Bubble-Tea">Bubble Tea $5.00</p>
+    <button class="Purchase" onclick="buyItem('Bubble Tea',5.00)">Buy</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="PinaColada.jpg" alt="Pina Colada">
+<p class="PinaColada">Pina Colada $8.80</p>
+    <button class="Purchase" onclick="buyItem('Pina Colada',8.80)">Buy</button>
+	</div>
+  </div>
+  
+  <div id="add-ons" class="menu-images" style="display: none;">
+    <div class="menu-image-container">
+      <img class="menu-image" src="TapiocaPearls.jpg" alt="Tapioca Pearls">
+<p class="Tapioca-Pearls">Tapioca Pearls $0.20</p>
+    <button class="Purchase" onclick="buyItem('Tapioca Pearls',0.20)">Add</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="JellyPudding.jpg" alt="Jelly Pudding">
+<p class="Jelly-Pudding">Jelly Pudding $0.20</p>
+	<button class="Purchase" onclick="buyItem('Jelly Pudding',0.20)">Add</button>
+    </div>
+	<div class="menu-image-container">
+      <img class="menu-image" src="Sprinkles.jpg" alt="Sprinkles">
+<p class="Sprinkles">Sprinkles $0.15</p>
+    <button class="Purchase" onclick="buyItem('Springkles',0.15)">Add</button>
+	</div>
+  </div>
+</div>
+  
+<div id="total-bar"></div>
+
+<script>
+  function showCategory(category, imageUrl) {
+    document.querySelectorAll('.menu-images').forEach(function(categoryElement) {
+      categoryElement.style.display = 'none';
+    });
+    document.getElementById(category).style.display = 'flex';
+    
+    var flashedImage = document.getElementById('flashed-image');
+    flashedImage.innerHTML = '<img src="' + imageUrl + '" alt="Flashed Image" class="menu-image">';
+    flashedImage.style.display = 'block';
+
+    setTimeout(function() {
+      flashedImage.style.display = 'none';
+    }, 1000); 
+  }
+ 
+  var totalPrice = 0;
+
+  function showCategory(category, imageUrl) {
+    document.querySelectorAll('.menu-images').forEach(function(categoryElement) {
+      categoryElement.style.display = 'none';
+    });
+    document.getElementById(category).style.display = 'flex';
+    
+    var flashedImage = document.getElementById('flashed-image');
+    flashedImage.innerHTML = '<img src="' + imageUrl + '" alt="Flashed Image" class="menu-image">';
+    flashedImage.style.display = 'block';
+
+    setTimeout(function() {
+      flashedImage.style.display = 'none';
+    }, 1000);
+  }
+
+  function buyItem(itemName, itemPrice) {
+    totalPrice += itemPrice;
+    updateTotalPrice();
+  }
+
+  function updateTotalPrice() {
+    document.getElementById('total-bar').innerText = 'Total Price: $' + totalPrice.toFixed(2);
+  }
+
+var totalPrice = 0;
+
+  function showCategory(category, imageUrl) {
+    document.querySelectorAll('.menu-images').forEach(function(categoryElement) {
+      categoryElement.style.display = 'none';
+    });
+    document.getElementById(category).style.display = 'flex';
+    
+    var flashedImage = document.getElementById('flashed-image');
+    flashedImage.innerHTML = '<img src="' + imageUrl + '" alt="Flashed Image" class="menu-image">';
+    flashedImage.style.display = 'block';
+
+    setTimeout(function() {
+      flashedImage.style.display = 'none';
+    }, 1000);
+  }
+
+  function buyItem(itemName, itemPrice) {
+    totalPrice += itemPrice;
+    updateTotalPrice();
+  }
+
+  function updateTotalPrice() {
+    document.getElementById('total-bar').innerText = 'Total Price: $' + totalPrice.toFixed(2);
+  }
+  var cart = {}; 
+
+  function showCategory(category, imageUrl) {
+    document.querySelectorAll('.menu-images').forEach(function(categoryElement) {
+      categoryElement.style.display = 'none';
+    });
+    document.getElementById(category).style.display = 'flex';
+    
+    var flashedImage = document.getElementById('flashed-image');
+    flashedImage.innerHTML = '<img src="' + imageUrl + '" alt="Flashed Image" class="menu-image">';
+    flashedImage.style.display = 'block';
+
+    setTimeout(function() {
+      flashedImage.style.display = 'none';
+    }, 1000); 
+  }
+
+  function buyItem(itemName, itemPrice) {
+    if (cart[itemName]) {
+      cart[itemName].quantity++;
+    } else {
+      cart[itemName] = {
+        price: itemPrice,
+        quantity: 1
+      };
+    }
+    updateCart(); 
+  }
+
+  function updateCart() {
+    var cartContainer = document.getElementById('cart-container');
+    cartContainer.innerHTML = ''; 
+
+    var totalPrice = 0;
+
+    for (var itemName in cart) {
+      var item = cart[itemName];
+      var itemTotalPrice = item.price * item.quantity;
+      totalPrice += itemTotalPrice;
+
+      var itemDiv = document.createElement('div');
+      itemDiv.classList.add('cart-item');
+      itemDiv.innerHTML = '<p>' + itemName + ' x' + item.quantity + ' - $' + itemTotalPrice.toFixed(2) + '</p>';
+      cartContainer.appendChild(itemDiv);
+    }
+    document.getElementById('total-bar').innerText = 'Total Price: $' + totalPrice.toFixed(2);
+  }
+  var cartVisible = false;
+
+function toggleCart() {
+  var cartContainer = document.getElementById('cart-container');
+  if (!cartVisible) {
+    cartContainer.style.display = 'block';
+    updateCart(); 
+  } else {
+    cartContainer.style.display = 'none';
+  }
+  cartVisible = !cartVisible;
+}
+  
+</script>
+</body>
+</html>

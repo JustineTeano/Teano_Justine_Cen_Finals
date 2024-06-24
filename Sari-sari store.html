@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J & P Shop</title>
+<style>
+    .container {
+        text-align: center;
+		background-color: skyblue;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+    }
+    .buttons {
+        margin-top: 20px;
+    }
+    .button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: yellow;
+    color: maroon;
+    border: 2px solid black;
+    font-family: Algerian, sans-serif;
+}
+    .button:hover {
+        background-color: #0056b3;
+    }
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .image-wrapper {
+        margin: 10px;
+    }
+    .image-wrapper img {
+        width: 200px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+    }
+    .image-name {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+    .stock-info {
+        font-size: 14px;
+    }
+    .price {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    .add-to-cart-button, .refresh-button {
+        margin-top: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+    }
+    .add-to-cart-button {
+        background-color: #28a745;
+        color: #fff;
+    }
+    .add-to-cart-button:hover {
+        background-color: #218838;
+    }
+    .refresh-button {
+        background-color: #ffc107;
+        color: #000;
+    }
+    .refresh-button:hover {
+        background-color: #ffca2c;
+    }
+    #total {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <img src="logo.png" style="width: 200px;">
+    <h3 style="text-align: center; fpnt-family: Goudy Stout; font-size 85px">Welcome to J & P Shop</h3>
+	
+    <div class="buttons">
+        <button class="button" onclick="showImages('jeans')">Jeans</button>
+        <button class="button" onclick="showImages('tshirt')">T-shirt</button>
+        <button class="button" onclick="showImages('perfume')">Perfume</button>
+        <button class="button" onclick="showImages('sando')">Sando</button>
+        <button class="button" onclick="showImages('toys')">Toys</button>
+    </div>
+    <div id="imageContainer" class="image-container"></div>
+    <div id="total"></div>
+
+    <div id="orderSummary">
+        <h3>Order Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="orderSummaryBody"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">Total:</td>
+                    <td id="orderTotal"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+    var total = 0;
+    var orderItems = [];
+
+    function showImages(category) {
+        var imageContainer = document.getElementById("imageContainer");
+        imageContainer.innerHTML = ""; 
+        var images = {
+            jeans: [
+                { src: "orslow107.jpg", name: "ORSLOW107 JEANS HYPE", price: 599, quantity: 0, stock: 99 },
+                { src: "edwinslimtapered.jpg", name: "Edwins Imtapered Jeans", price: 585, quantity: 0, stock: 70 },
+                { src: "saintlaurent.jpg", name: "Saint Laurent Jeans", price: 470, quantity: 0, stock: 85 },
+                { src: "brunellocucinelli.jpg", name: "Brunello Cucinelli Jeans", price: 650, quantity: 0, stock: 105 }
+            ],
+            tshirt: [
+                { src: "menlettergraphictee.jpg", name: "Men Letter Graphic Tee", price: 899, quantity: 0, stock: 15 },
+                { src: "romwemensracingcar.jpg", name: "Romwe Mens Racing Car", price: 549, quantity: 0, stock: 20 },
+                { src: "lettergraphicdropshoulder.jpg", name: "letter Graphic Drop Shoulder", price: 570, quantity: 0, stock: 10 },
+                { src: "romwestreetlifemendropshoulder.jpg", name: "Romwe Street Life Men Drop Shoulder", price: 620, quantity: 0, stock: 18 }
+            ],
+            perfume: [
+                { src: "memoryfragrance.jpg", name: "Memory Fragrance", price: 50, quantity: 0, stock: 25 },
+                { src: "sexyman.jpg", name: "Sexy Man", price: 55, quantity: 0, stock: 30 },
+                { src: "mensperfumesuit.jpg", name: "Mens Perfumesuit", price: 60, quantity: 0, stock: 20 },
+                { src: "floralscentperfume.jpg", name: "Floral Scent Perfume", price: 65, quantity: 0, stock: 15 }
+            ],
+            sando: [
+                { src: "manfinitychillmode.jpg", name: "Man Finity Chill Mode", price: 10, quantity: 0, stock: 10 },
+                { src: "romwestreettanktop.jpg", name: "Romwe Street Tank Top", price: 12, quantity: 0, stock: 8 },
+                { src: "manfinityhypemode.jpg", name: "Man Finity Hype Mode", price: 15, quantity: 0, stock: 12 },
+                { src: "manfinitysporsity.jpg", name: "Manfinity Sporsity", price: 18, quantity: 0, stock: 6 }
+            ],
+            toys: [
+                { src: "redcarmodelcar.jpg", name: "Camaro Scale 1:25", price: 20, quantity: 0, stock: 20 },
+                { src: "kawasakininjar1000.jpg", name: "Kawasaki Ninja R 1000", price: 25, quantity: 0, stock: 15 },
+                { src: "barretgun.jpg", name: "Barret Gun", price: 30, quantity: 0, stock: 25 },
+                { src: "snipergun.jpg", name: "Sniper Gun", price: 35, quantity: 0, stock: 30 }
+            ]
+        };
+        images[category].forEach(function(item) {
+            var imageWrapper = document.createElement("div");
+            imageWrapper.classList.add("image-wrapper");
+
+            var img = document.createElement("img");
+            img.src = item.src;
+
+            var name = document.createElement("div");
+            name.classList.add("image-name");
+            name.textContent = item.name;
+
+            var stockInfo = document.createElement("div");
+            stockInfo.classList.add("stock-info");
+            stockInfo.textContent = "Stock: " + item.stock;
+
+            var price = document.createElement("div");
+            price.classList.add("price");
+            price.textContent = "Price: " + item.price;
+
+            var quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.value = item.quantity;
+            quantityInput.min = 0;
+            quantityInput.max = item.stock;
+
+            var addToCartButton = document.createElement("button");
+            addToCartButton.classList.add("add-to-cart-button");
+            addToCartButton.textContent = "Add to Cart";
+
+            var refreshButton = document.createElement("button");
+            refreshButton.classList.add("refresh-button");
+            refreshButton.textContent = "Refresh";
+
+            addToCartButton.addEventListener('click', function() {
+                var quantity = parseInt(quantityInput.value);
+                if (quantity > 0 && quantity <= item.stock) {
+                    item.quantity += quantity;
+                    item.stock -= quantity;
+                    stockInfo.textContent = "Stock: " + item.stock;
+                    quantityInput.max = item.stock; 
+                    quantityInput.value = 0; 
+                    total += quantity * item.price; 
+                    document.getElementById('total').textContent = "Total: " + total.toFixed(2);
+                    addToOrder(item); 
+                } else {
+                    alert("The quantity should not exceed the available stock.");
+                }
+            });
+
+            refreshButton.addEventListener('click', function() {
+                if (item.quantity > 0) {
+                    total -= item.quantity * item.price; 
+                    document.getElementById('total').textContent = "Total: " + total.toFixed(2);
+                    item.stock += item.quantity; 
+                    item.quantity = 0; 
+                    stockInfo.textContent = "Stock: " + item.stock; 
+                    quantityInput.max = item.stock; 
+                    quantityInput.value = 0; 
+                    removeFromOrder(item); 
+                }
+            });
+
+            imageWrapper.appendChild(img);
+            imageWrapper.appendChild(name);
+            imageWrapper.appendChild(price);
+            imageWrapper.appendChild(stockInfo);
+            imageWrapper.appendChild(quantityInput);
+            imageWrapper.appendChild(addToCartButton);
+            imageWrapper.appendChild(refreshButton);
+
+            imageContainer.appendChild(imageWrapper);
+        });
+    }
+
+    function updateOrderSummary() {
+        var orderSummaryBody = document.getElementById("orderSummaryBody");
+        orderSummaryBody.innerHTML = "";
+
+        var orderTotal = 0;
+
+        orderItems.forEach(function(item) {
+            var row = document.createElement("tr");
+
+            var itemNameCell = document.createElement("td");
+            itemNameCell.textContent = item.name;
+
+            var itemQuantityCell = document.createElement("td");
+            itemQuantityCell.textContent = item.quantity;
+
+            var itemPriceCell = document.createElement("td");
+            itemPriceCell.textContent = "" + item.price;
+
+            var itemSubtotalCell = document.createElement("td");
+            var subtotal = item.quantity * item.price;
+            itemSubtotalCell.textContent = "" + subtotal.toFixed(2);
+            orderTotal += subtotal;
+
+            row.appendChild(itemNameCell);
+            row.appendChild(itemQuantityCell);
+            row.appendChild(itemPriceCell);
+            row.appendChild(itemSubtotalCell);
+
+            orderSummaryBody.appendChild(row);
+        });
+
+        document.getElementById("orderTotal").textContent = "" + orderTotal.toFixed(2);
+    }
+
+    function addToOrder(item) {
+        var existingItem = orderItems.find(function(orderItem) {
+            return orderItem.name === item.name;
+        });
+
+        if (existingItem) {
+            existingItem.quantity += item.quantity;
+        } else {
+            orderItems.push({ name: item.name, quantity: item.quantity, price: item.price });
+        }
+
+        updateOrderSummary();
+    }
+
+    function removeFromOrder(item) {
+        var index = orderItems.findIndex(function(orderItem) {
+            return orderItem.name === item.name;
+        });
+
+        if (index !== -1) {
+            orderItems.splice(index, 1);
+        }
+
+        updateOrderSummary();
+    }
+</script>
+
+</body>
+</html>
